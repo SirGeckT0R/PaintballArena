@@ -20,7 +20,7 @@ void AHitscanWeapon::Fire() {
 			if (Hit.GetActor() != nullptr) {
 				FVector ShotFromDirection = (TraceEnd - TraceStart).GetSafeNormal();
 				FPointDamageEvent DamageEvent(DamageAmount, Hit, ShotFromDirection, UDamageType::StaticClass());
-				UGameplayStatics::ApplyDamage(Hit.GetActor(), DamageAmount, GetInstigatorController(), nullptr, nullptr);
+				UGameplayStatics::ApplyDamage(Hit.GetActor(), DamageAmount, GetInstigatorController(), GetOwner(), nullptr);
 				//Hit.GetActor()->TakeDamage(DamageAmount, DamageEvent, GetInstigatorController(), this);
 				FireEffects();
 				AmmoManager->DecreaseAmmo();
