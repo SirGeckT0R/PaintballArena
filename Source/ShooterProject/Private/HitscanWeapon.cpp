@@ -22,7 +22,8 @@ void AHitscanWeapon::Fire() {
 				FPointDamageEvent DamageEvent(DamageAmount, Hit, ShotFromDirection, UDamageType::StaticClass());
 				UGameplayStatics::ApplyDamage(Hit.GetActor(), DamageAmount, GetInstigatorController(), GetOwner(), nullptr);
 				//Hit.GetActor()->TakeDamage(DamageAmount, DamageEvent, GetInstigatorController(), this);
-				FireEffects();
+				;
+				FireEffects(Hit.Location, Hit.Normal);
 				AmmoManager->DecreaseAmmo();
 			}
 		}

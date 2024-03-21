@@ -37,7 +37,7 @@ public:
 	virtual void Fire();
 
 	UFUNCTION(BlueprintImplementableEvent, Category = "ShooterProject")
-	void FireEffects();
+	void FireEffects(FVector HitLocation, FVector HitNormal);
 
 	UFUNCTION(BlueprintCallable, Category = "ShooterProject")
 	void Reload();
