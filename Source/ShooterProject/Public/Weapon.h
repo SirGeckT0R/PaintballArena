@@ -12,6 +12,8 @@ class SHOOTERPROJECT_API AWeapon : public AActor
 {
 	GENERATED_BODY()
 
+protected:
+	bool isReloading=false;
 public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "ShooterProject")
 	class USceneComponent* MuzzleComponent;
@@ -40,7 +42,10 @@ public:
 	void FireEffects(FVector HitLocation, FVector HitNormal);
 
 	UFUNCTION(BlueprintCallable, Category = "ShooterProject")
-	void Reload();
+	void StartReload();
+
+	UFUNCTION(BlueprintCallable, Category = "ShooterProject")
+	void StopReload();
 		
 	UFUNCTION(BlueprintImplementableEvent, Category = "ShooterProject")
 	void ReloadEffects();

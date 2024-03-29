@@ -36,7 +36,7 @@ void AWeapon::Tick(float DeltaTime)
 }
 
 void AWeapon::Fire() {
-	if (ProjectileClass != nullptr && AmmoManager->LeftInMagazine > 0) {
+	if (ProjectileClass != nullptr && AmmoManager->LeftInMagazine > 0 && !isReloading) {
 		FActorSpawnParameters SpawnInfo;
 		SpawnInfo.Owner = this;
 		SpawnInfo.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
@@ -47,13 +47,18 @@ void AWeapon::Fire() {
 			AmmoManager->DecreaseAmmo();
 		}
 	}
-	else if(ProjectileClass != nullptr){
-		Reload();
+	else if(ProjectileClass != nullptr && !isReloading){
+		StartReload();
 	}
 }
 
-void AWeapon::Reload() {
+void AWeapon::StartReload() {
+	isReloading = true;
+	ReloadEffects();
+}
+
+void AWeapon::StopReload() {
 	if (AmmoManager->Reload()) {
-		ReloadEffects();
+		isReloading = false;
 	}
 }
