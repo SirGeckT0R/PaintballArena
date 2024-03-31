@@ -12,6 +12,7 @@ void AHitscanWeapon::Fire() {
 		FVector TraceStart = MuzzleTransform.GetLocation();
 		FVector TraceEnd = TraceStart + MuzzleTransform.GetUnitAxis(EAxis::X) * TraceDistance;
 		FCollisionQueryParams QueryParams(TEXT("WeaponTrace"), false, this);
+		AmmoManager->DecreaseAmmo();
 
 		FHitResult Hit;
 		FLinearColor Color;
@@ -24,7 +25,6 @@ void AHitscanWeapon::Fire() {
 				//Hit.GetActor()->TakeDamage(DamageAmount, DamageEvent, GetInstigatorController(), this);
 				
 				FireEffects(Hit.Location, Hit.Normal);
-				AmmoManager->DecreaseAmmo();
 			}
 		}
 	}else if(!isReloading) {
