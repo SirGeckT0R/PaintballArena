@@ -48,6 +48,9 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "ShooterProject")
 	void DecreaseAmmo(int amount = 1);
 
+	UFUNCTION(BlueprintCallable, Category = "ShooterProject")
+	void AddTotalAmmo(int amount = 1);
+
 private:
 	UPROPERTY(EditDefaultsOnly, Category = "ShooterProject")
 	int MaxLoad = 0;

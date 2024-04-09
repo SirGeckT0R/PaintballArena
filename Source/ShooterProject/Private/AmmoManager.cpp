@@ -55,6 +55,14 @@ void UAmmoManager::DecreaseAmmo(int amount) {
 	TotalLeft -= amount;
 }
 
+void UAmmoManager::AddTotalAmmo(int amount) {
+	if (TotalLeft + amount > MaxLoad) {
+		TotalLeft = MaxLoad;
+		return;
+	}
+	TotalLeft += amount;
+}
+
 bool UAmmoManager::Reload() {
 	if (TotalLeft > 0) {
 		int mag = GetMagazineCapacity();
