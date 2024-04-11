@@ -16,7 +16,7 @@ void AHitscanWeapon::Fire() {
 
 		FHitResult Hit;
 		FLinearColor Color;
-		DrawDebugDirectionalArrow(GetWorld(), TraceStart, TraceEnd, 1000.0f, Color.ToFColor(true).Red, false, 1.0f, 0, 5.0f);
+		//DrawDebugDirectionalArrow(GetWorld(), TraceStart, TraceEnd, 1000.0f, Color.ToFColor(true).Red, false, 1.0f, 0, 5.0f);
 		if (GetWorld()->LineTraceSingleByChannel(Hit, TraceStart, TraceEnd, ECC_Pawn, QueryParams)) {
 			if (Hit.GetActor() != nullptr) {
 				FVector ShotFromDirection = (TraceEnd - TraceStart).GetSafeNormal();
@@ -24,7 +24,7 @@ void AHitscanWeapon::Fire() {
 				UGameplayStatics::ApplyDamage(Hit.GetActor(), DamageAmount, GetInstigatorController(), GetOwner(), nullptr);
 				//Hit.GetActor()->TakeDamage(DamageAmount, DamageEvent, GetInstigatorController(), this);
 				
-				FireEffects(Hit.Location, Hit.Normal);
+				FireEffects(Hit);
 			}
 		}
 	}else if(!isReloading) {

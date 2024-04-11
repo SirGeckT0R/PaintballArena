@@ -43,7 +43,7 @@ void AWeapon::Fire() {
 		AProjectile* Projectile = GetWorld()->SpawnActor<AProjectile>(ProjectileClass, MuzzleComponent->GetComponentTransform(), SpawnInfo);
 		if (Projectile != nullptr) {
 			Projectile->SetVelocity(MuzzleComponent->GetForwardVector());
-			FireEffects(FVector(),FVector());
+			FireEffects(FHitResult());
 			AmmoManager->DecreaseAmmo();
 		}
 	}

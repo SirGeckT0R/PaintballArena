@@ -38,8 +38,8 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "ShooterProject")
 	virtual void Fire();
 
-	UFUNCTION(BlueprintImplementableEvent, Category = "ShooterProject")
-	void FireEffects(FVector HitLocation, FVector HitNormal);
+	UFUNCTION(BlueprintImplementableEvent, BlueprintCallable, Category = "ShooterProject")
+	void FireEffects(FHitResult HitResult);
 
 	UFUNCTION(BlueprintCallable, Category = "ShooterProject")
 	void StartReload();
