@@ -12,20 +12,9 @@ class SHOOTERPROJECT_API AWeapon : public AActor
 {
 	GENERATED_BODY()
 
-protected:
-	bool isReloading=false;
 public:
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "ShooterProject")
-	class USceneComponent* MuzzleComponent;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "ShooterProject")
-	TSubclassOf<class AProjectile> ProjectileClass;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "ShooterProject")
-	UAmmoManager* AmmoManager;
-
 	// Sets default values for this actor's properties
-	AWeapon(const FObjectInitializer& ObjectInitializer);
+	AWeapon();
 
 protected:
 	// Called when the game starts or when spawned
@@ -36,17 +25,8 @@ public:
 	virtual void Tick(float DeltaTime) override;
 
 	UFUNCTION(BlueprintCallable, Category = "ShooterProject")
-	virtual void Fire();
+	virtual void Attack();
 
 	UFUNCTION(BlueprintImplementableEvent, BlueprintCallable, Category = "ShooterProject")
-	void FireEffects(FHitResult HitResult);
-
-	UFUNCTION(BlueprintCallable, Category = "ShooterProject")
-	void StartReload();
-
-	UFUNCTION(BlueprintCallable, Category = "ShooterProject")
-	void StopReload();
-		
-	UFUNCTION(BlueprintImplementableEvent, Category = "ShooterProject")
-	void ReloadEffects();
+	void AttackEffects(FHitResult HitResult);
 };

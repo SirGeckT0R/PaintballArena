@@ -6,7 +6,7 @@
 #include "Engine/DamageEvents.h"
 
 
-void AHitscanWeapon::Fire() {
+void AHitscanWeapon::Attack() {
 	if (AmmoManager->LeftInMagazine > 0 && !isReloading) {
 		FTransform MuzzleTransform = MuzzleComponent->GetComponentTransform();
 		FVector TraceStart = MuzzleTransform.GetLocation();
@@ -24,7 +24,7 @@ void AHitscanWeapon::Fire() {
 				UGameplayStatics::ApplyDamage(Hit.GetActor(), DamageAmount, GetInstigatorController(), GetOwner(), nullptr);
 				//Hit.GetActor()->TakeDamage(DamageAmount, DamageEvent, GetInstigatorController(), this);
 				
-				FireEffects(Hit);
+				AttackEffects(Hit);
 			}
 		}
 	}else if(!isReloading) {

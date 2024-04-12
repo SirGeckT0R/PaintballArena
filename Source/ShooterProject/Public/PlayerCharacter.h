@@ -12,10 +12,10 @@ class SHOOTERPROJECT_API APlayerCharacter : public ACharacter
 	GENERATED_BODY()
 public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "ShooterProject")
-	TSubclassOf<class AWeapon> WeaponClass;
+	TSubclassOf<class ARifle> RifleClass;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "ShooterProject")
-	class AWeapon* Weapon;
+	class ARifle* Rifle;
 
 public:
 	// Sets default values for this character's properties

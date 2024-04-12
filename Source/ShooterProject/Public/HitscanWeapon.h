@@ -3,14 +3,14 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "Weapon.h"
+#include "Rifle.h"
 #include "HitscanWeapon.generated.h"
 
 /**
  * 
  */
 UCLASS()
-class SHOOTERPROJECT_API AHitscanWeapon : public AWeapon
+class SHOOTERPROJECT_API AHitscanWeapon : public ARifle
 {
 	GENERATED_BODY()
 	
@@ -20,5 +20,5 @@ class SHOOTERPROJECT_API AHitscanWeapon : public AWeapon
 	UPROPERTY(EditAnywhere, Category = "ShooterProject")
 	float DamageAmount = 15.0f;
 
-	virtual void Fire() override;
+	virtual void Attack() override;
 };

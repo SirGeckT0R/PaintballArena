@@ -2,14 +2,14 @@
 
 
 #include "PlayerCharacter.h"
-#include "Weapon.h"
+#include "Rifle.h"
 
 // Sets default values
 APlayerCharacter::APlayerCharacter()
 {
  	// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
-	WeaponClass = AWeapon::StaticClass();
+	RifleClass = ARifle::StaticClass();
 }
 
 // Called when the game starts or when spawned
@@ -34,11 +34,11 @@ void APlayerCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCom
 }
 
 void APlayerCharacter::SpawnWeapon(FTransform SpawnTransform) {
-	if (WeaponClass != nullptr) {
+	if (RifleClass != nullptr) {
 		FActorSpawnParameters SpawnInfo;
 		SpawnInfo.Owner = this;
 		SpawnInfo.Instigator = this;
-		Weapon = GetWorld()->SpawnActor<AWeapon>(WeaponClass, SpawnTransform, SpawnInfo);
+		Rifle = GetWorld()->SpawnActor<ARifle>(RifleClass, SpawnTransform, SpawnInfo);
 	}
 }
 
