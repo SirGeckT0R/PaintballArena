@@ -2,8 +2,6 @@
 
 
 #include "Weapon.h"
-#include "AmmoManager.h"
-#include "Projectile.h"
 
 // Sets default values
 AWeapon::AWeapon()
