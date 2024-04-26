@@ -58,7 +58,6 @@ void ARifle::StartReload() {
 }
 
 void ARifle::StopReload() {
-	if (AmmoManager->Reload()) {
-		isReloading = false;
-	}
+	isReloading = false;
+	AmmoManager->Reload();
 }
