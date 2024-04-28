@@ -14,4 +14,7 @@ class SHOOTERPROJECT_API AMeleeWeapon : public AWeapon
 {
 	GENERATED_BODY()
 	
+private:
+	UFUNCTION(BlueprintCallable, Category = "ShooterProject")
+	virtual bool MeleeAttack(FHitResult& OutHit);
 };
