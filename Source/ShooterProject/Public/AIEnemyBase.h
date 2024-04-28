@@ -4,11 +4,26 @@
 
 #include "CoreMinimal.h"
 #include "AIController.h"
+#include "Delegates/Delegate.h"
+#include "BehaviorTree/BehaviorTree.h"
+#include "BehaviorTree/BlackboardComponent.h"
 #include "AIEnemyBase.generated.h"
 
 /**
  * 
  */
+UENUM(BlueprintType)
+enum E_State {
+	Passive UMETA(DisplayName = "Passive"),
+	Attacking UMETA(DisplayName = "Attacking"),
+	Frozen UMETA(DisplayName = "Frozen"),
+	Patrolling UMETA(DisplayName = "Patrolling"),
+	Investigating UMETA(DisplayName = "Investigating"),
+	Dead UMETA(DisplayName = "Dead"),
+};
+
+DECLARE_DELEGATE_OneParam(FOnHostileDetected, AActor*);
+
 UCLASS()
 class SHOOTERPROJECT_API AAIEnemyBase : public AAIController
 {
@@ -16,6 +31,12 @@ class SHOOTERPROJECT_API AAIEnemyBase : public AAIController
 public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "ShooterProject")
 	class AActor* AttackTarget;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "ShooterProject")
+	UBlackboardData* BlackboardToUse;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "ShooterProject")
+	UBlackboardComponent* BlackboardBase;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "ShooterProject")
 	FName AttackTargetKeyName = FName("AttackTarget");
@@ -35,5 +56,43 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "ShooterProject")
 	FName SpawnPointKeyName = FName("SpawnPointLocation");
 
-	//virtual void OnPossess(APawn* PossessedPawn) override;
+	virtual void OnPossess(APawn* PossessedPawn) override;
+
+	UFUNCTION(BlueprintCallable, BlueprintCallable, Category = "ShooterProject")
+	E_State GetCurrentState();
+
+	UFUNCTION(BlueprintCallable, BlueprintCallable, Category = "ShooterProject")
+	void SetStateAsPassive();
+
+	UFUNCTION(BlueprintCallable, BlueprintCallable, Category = "ShooterProject")
+	void SetStateAsAttacking(AActor* Target, bool UsePreviousKnownAttackTarget);
+
+	UFUNCTION(BlueprintCallable, BlueprintCallable, Category = "ShooterProject")
+	void SetStateAsInvestigating(FVector Location);
+	
+	UFUNCTION(BlueprintCallable, BlueprintCallable, Category = "ShooterProject")
+	void SetStateAsFrozen();
+
+	UFUNCTION(BlueprintCallable, BlueprintCallable, Category = "ShooterProject")
+	void SetStateAsDead();
+
+	UFUNCTION(BlueprintCallable, BlueprintCallable, Category = "ShooterProject")
+	void SetStateAsPatrolling();
+
+	UFUNCTION(BlueprintCallable, BlueprintCallable, Category = "ShooterProject")
+	void SetSpawnPointLocation(FVector Location);
+
+	UFUNCTION(BlueprintCallable, BlueprintCallable, Category = "ShooterProject")
+	void HandleSensedSight(AActor* Hostile);
+
+	UFUNCTION(BlueprintCallable, BlueprintCallable, Category = "ShooterProject")
+	void HandleSensedDamage(AActor* Hostile);
+
+	UFUNCTION(BlueprintCallable, BlueprintCallable, Category = "ShooterProject")
+	void HandleSensedHearing(AActor* Hostile);
+
+	FOnHostileDetected OnHostileDetected;
+
+private:
+	void HandleSense(AActor* Hostile);
 };
