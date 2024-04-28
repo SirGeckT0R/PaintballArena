@@ -13,7 +13,7 @@
  * 
  */
 UENUM(BlueprintType)
-enum E_State {
+enum EState {
 	Passive UMETA(DisplayName = "Passive"),
 	Attacking UMETA(DisplayName = "Attacking"),
 	Frozen UMETA(DisplayName = "Frozen"),
@@ -22,8 +22,8 @@ enum E_State {
 	Dead UMETA(DisplayName = "Dead"),
 };
 
-DECLARE_DELEGATE_OneParam(FOnHostileDetected, AActor*);
-
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnHostileDetected, AActor*, Hostile);
+	
 UCLASS()
 class SHOOTERPROJECT_API AAIEnemyBase : public AAIController
 {
@@ -58,39 +58,40 @@ public:
 
 	virtual void OnPossess(APawn* PossessedPawn) override;
 
-	UFUNCTION(BlueprintCallable, BlueprintCallable, Category = "ShooterProject")
-	E_State GetCurrentState();
+	UFUNCTION(BlueprintCallable, Category = "ShooterProject")
+	EState GetCurrentState();
 
-	UFUNCTION(BlueprintCallable, BlueprintCallable, Category = "ShooterProject")
+	UFUNCTION(BlueprintCallable, Category = "ShooterProject")
 	void SetStateAsPassive();
 
-	UFUNCTION(BlueprintCallable, BlueprintCallable, Category = "ShooterProject")
+	UFUNCTION(BlueprintCallable, Category = "ShooterProject")
 	void SetStateAsAttacking(AActor* Target, bool UsePreviousKnownAttackTarget);
 
-	UFUNCTION(BlueprintCallable, BlueprintCallable, Category = "ShooterProject")
+	UFUNCTION(BlueprintCallable, Category = "ShooterProject")
 	void SetStateAsInvestigating(FVector Location);
 	
-	UFUNCTION(BlueprintCallable, BlueprintCallable, Category = "ShooterProject")
+	UFUNCTION(BlueprintCallable, Category = "ShooterProject")
 	void SetStateAsFrozen();
 
-	UFUNCTION(BlueprintCallable, BlueprintCallable, Category = "ShooterProject")
+	UFUNCTION(BlueprintCallable, Category = "ShooterProject")
 	void SetStateAsDead();
 
-	UFUNCTION(BlueprintCallable, BlueprintCallable, Category = "ShooterProject")
+	UFUNCTION(BlueprintCallable, Category = "ShooterProject")
 	void SetStateAsPatrolling();
 
-	UFUNCTION(BlueprintCallable, BlueprintCallable, Category = "ShooterProject")
+	UFUNCTION(BlueprintCallable, Category = "ShooterProject")
 	void SetSpawnPointLocation(FVector Location);
 
-	UFUNCTION(BlueprintCallable, BlueprintCallable, Category = "ShooterProject")
+	UFUNCTION(BlueprintCallable, Category = "ShooterProject")
 	void HandleSensedSight(AActor* Hostile);
 
-	UFUNCTION(BlueprintCallable, BlueprintCallable, Category = "ShooterProject")
+	UFUNCTION(BlueprintCallable, Category = "ShooterProject")
 	void HandleSensedDamage(AActor* Hostile);
 
-	UFUNCTION(BlueprintCallable, BlueprintCallable, Category = "ShooterProject")
+	UFUNCTION(BlueprintCallable, Category = "ShooterProject")
 	void HandleSensedHearing(AActor* Hostile);
 
+	UPROPERTY(BlueprintCallable,BlueprintAssignable, Category = "ShooterProject")
 	FOnHostileDetected OnHostileDetected;
 
 private:

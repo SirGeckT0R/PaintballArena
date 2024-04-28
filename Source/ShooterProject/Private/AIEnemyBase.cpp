@@ -10,6 +10,7 @@
 
 void AAIEnemyBase::OnPossess(APawn* PossessedPawn)
 {
+	Super::OnPossess(PossessedPawn);
 	AEnemyBase* BaseEnemy = Cast<AEnemyBase>(PossessedPawn);
 	if (BaseEnemy != nullptr) {
 		if (BaseEnemy->BehaviorTree !=nullptr) {
@@ -21,36 +22,37 @@ void AAIEnemyBase::OnPossess(APawn* PossessedPawn)
 			BlackboardBase->SetValueAsFloat(AttackRadiusKeyName, AttackRadius);
 			BlackboardBase->SetValueAsFloat(DefendRadiusKeyName, DefendRadius);
 			BaseEnemy->FindAndSetPatrolRoute();
+			SetStateAsPatrolling();
 		}
 	}
 
 }
 
-E_State AAIEnemyBase::GetCurrentState()
+EState AAIEnemyBase::GetCurrentState()
 {
-	return E_State(BlackboardBase->GetValueAsEnum(StateKeyName));
+	return EState(BlackboardBase->GetValueAsEnum(StateKeyName));
 }
 
 void AAIEnemyBase::SetStateAsPassive()
 {
-	BlackboardBase->SetValueAsEnum(StateKeyName, E_State::Passive);
+	BlackboardBase->SetValueAsEnum(StateKeyName, EState::Passive);
 }
 
 void AAIEnemyBase::SetStateAsAttacking(AActor* Target, bool UsePreviousKnownAttackTarget)
 {
-	E_State CurrentState = E_State(BlackboardBase->GetValueAsEnum(StateKeyName));
+	EState CurrentState = EState(BlackboardBase->GetValueAsEnum(StateKeyName));
 	AActor* NewAttackTarget;
 	if (this->AttackTarget != nullptr && UsePreviousKnownAttackTarget) {
-		if (CurrentState != E_State::Dead) {
+		if (CurrentState != EState::Dead) {
 			NewAttackTarget = this->AttackTarget;
 		}
 	}
 	else {
-		if (AttackTarget != nullptr) {
+		if (Target != nullptr) {
 
 			NewAttackTarget = Target;
 			this->AttackTarget = Target;
-			BlackboardBase->SetValueAsEnum(StateKeyName, E_State::Attacking);
+			BlackboardBase->SetValueAsEnum(StateKeyName, EState::Attacking);
 			BlackboardBase->SetValueAsObject(AttackTargetKeyName, NewAttackTarget);
 		}
 		else {
@@ -61,23 +63,23 @@ void AAIEnemyBase::SetStateAsAttacking(AActor* Target, bool UsePreviousKnownAtta
 
 void AAIEnemyBase::SetStateAsInvestigating(FVector Location)
 {
-	BlackboardBase->SetValueAsEnum(StateKeyName, E_State::Investigating);
+	BlackboardBase->SetValueAsEnum(StateKeyName, EState::Investigating);
 	BlackboardBase->SetValueAsVector(PointOfInterestKeyName, Location);
 }
 
 void AAIEnemyBase::SetStateAsFrozen()
 {
-	BlackboardBase->SetValueAsEnum(StateKeyName, E_State::Frozen);
+	BlackboardBase->SetValueAsEnum(StateKeyName, EState::Frozen);
 }
 
 void AAIEnemyBase::SetStateAsDead()
 {
-	BlackboardBase->SetValueAsEnum(StateKeyName, E_State::Dead);
+	BlackboardBase->SetValueAsEnum(StateKeyName, EState::Dead);
 }
 
 void AAIEnemyBase::SetStateAsPatrolling()
 {
-	BlackboardBase->SetValueAsEnum(StateKeyName, E_State::Patrolling);
+	BlackboardBase->SetValueAsEnum(StateKeyName, EState::Patrolling);
 }
 
 void AAIEnemyBase::SetSpawnPointLocation(FVector Location)
@@ -102,15 +104,15 @@ void AAIEnemyBase::HandleSensedHearing(AActor* Hostile)
 
 void AAIEnemyBase::HandleSense(AActor* Hostile)
 {
-	E_State CurrentState = GetCurrentState();
+	EState CurrentState = GetCurrentState();
 	ACharacter* PlayerCharacter = UGameplayStatics::GetPlayerCharacter(GetWorld(), 0);
 	switch (CurrentState) {
-	case E_State::Passive:
-	case E_State::Patrolling:
-	case E_State::Investigating:
+	case EState::Passive:
+	case EState::Patrolling:
+	case EState::Investigating:
 		if (PlayerCharacter == Hostile) {
 			SetStateAsAttacking(Hostile, false);
-			OnHostileDetected.Execute(Hostile);
+			OnHostileDetected.Broadcast(Hostile);
 		}
 		break;
 	default:
