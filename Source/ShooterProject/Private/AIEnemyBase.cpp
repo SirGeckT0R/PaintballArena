@@ -42,9 +42,13 @@ void AAIEnemyBase::SetStateAsAttacking(AActor* Target, bool UsePreviousKnownAtta
 {
 	EState CurrentState = EState(BlackboardBase->GetValueAsEnum(StateKeyName));
 	AActor* NewAttackTarget;
+	bool bbbbb = this->AttackTarget != nullptr && UsePreviousKnownAttackTarget;
+	bool ffff = CurrentState != EState::Dead;
 	if (this->AttackTarget != nullptr && UsePreviousKnownAttackTarget) {
 		if (CurrentState != EState::Dead) {
 			NewAttackTarget = this->AttackTarget;
+			BlackboardBase->SetValueAsEnum(StateKeyName, EState::Attacking);
+			BlackboardBase->SetValueAsObject(AttackTargetKeyName, NewAttackTarget);
 		}
 	}
 	else {

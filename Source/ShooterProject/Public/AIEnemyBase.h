@@ -63,7 +63,7 @@ public:
 
 	UFUNCTION(BlueprintCallable, Category = "ShooterProject")
 	void SetStateAsPassive();
-
+	
 	UFUNCTION(BlueprintCallable, Category = "ShooterProject")
 	void SetStateAsAttacking(AActor* Target, bool UsePreviousKnownAttackTarget);
 
